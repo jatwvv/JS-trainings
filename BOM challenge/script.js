@@ -19,7 +19,7 @@ function AddTask() {
 listContainer.addEventListener(
   "click",
   function (e) {
-     if (e.target.tagName === "BUTTON") {
+    if (e.target.tagName === "BUTTON") {
       e.target.parentElement.remove();
       saveDate();
     }
