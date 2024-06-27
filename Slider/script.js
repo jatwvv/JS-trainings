@@ -39,11 +39,82 @@ for (var i = 1; i <= slidesCount; i++) {
 //add the created ul to the page
 document.getElementById("indicators").appendChild(paginationElement);
 
+//get the new created ul
+var paginationNewUl = document.getElementById("pagination-ul");
+
+//get pagination items | array.from "search"
+var paginationbullets = Array.from(
+  document.querySelectorAll("#pagination-ul li")
+);
+
+//loop through all bullets items
+for (var i = 0; i < paginationbullets.length; i++) {
+  paginationbullets[i].onclick = function () {
+    currentSlide = parseInt(this.getAttribute("date-index"));
+    theChecker();
+  };
+}
+//trigger the checker function
+theChecker();
 //next slide function
 function nextSlide() {
-  console.log("next");
+  if (nextBtn.classList.contains("disabled")) {
+    //do nothing
+    return false;
+  } else {
+    currentSlide++;
+    theChecker();
+  }
 }
 //prev slide function
 function prevSlide() {
-  console.log("prev");
+  if (prevBtn.classList.contains("disabled")) {
+    //do nothing
+    return false;
+  } else {
+    currentSlide--;
+    theChecker();
+  }
+}
+
+//create checker function
+function theChecker() {
+  //set slide number
+  slideNumEle.textContent = "slide #" + currentSlide + " of " + slidesCount;
+  //remove all active classes
+  removeActive();
+  //set active class on current slide
+  sliderImgs[currentSlide - 1].classList.add("active");
+  //set active class on current pagination item
+  paginationNewUl.children[currentSlide - 1].classList.add("active");
+
+  //check if current slide is the first
+  if (currentSlide == 1) {
+    //add disabeld class on prev btn
+    prevBtn.classList.add("disabled");
+  } else {
+    //remove disabeld class from prev btn
+    prevBtn.classList.remove("disabled");
+  }
+
+  //check if current slide is the last
+  if (currentSlide == slidesCount) {
+    //add disabeld class on next btn
+    nextBtn.classList.add("disabled");
+  } else {
+    //remove disabeld class from next btn
+    nextBtn.classList.remove("disabled");
+  }
+}
+
+//remove all active classes from imgs and pagination bullets
+function removeActive() {
+  //loop through img
+  sliderImgs.forEach(function (img) {
+    img.classList.remove("active");
+  });
+  //loop through pagination bullets
+  paginationbullets.forEach(function (bullets) {
+    bullets.classList.remove("active");
+  });
 }
